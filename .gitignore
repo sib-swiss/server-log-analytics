@@ -1,0 +1,11 @@
+target
+.settings
+.cache-main
+.project
+.classpath
+*.sw*
+*.log
+/logs
+metastore_db
+results.tsv
+/bin/

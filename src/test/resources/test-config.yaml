@@ -1,0 +1,9 @@
+name: Test Log Analytics
+
+logDirectory: /src/test/resources/logs/**
+
+parquetFile: /src/test/resources/log-parquet
+    
+botPattern: (.*)(?i)(bot|crawler|spider|pingdom|monitis|teoma|facebook|bing|yahoo|embedly|quora|outbrain|pinterest|vkshare|validator)(.*)
+
+programPattern : (.*)(?i)(python|java|perl|wget|ruby|curl)(.*)
