@@ -1,6 +1,8 @@
-package org.elixir.insights.server.logs
+package swiss.sib.analytics.server.logs
 
-import org.scalatest._
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
+
 import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 
 class LogEntryUtilsSpecs extends FlatSpec with Matchers {

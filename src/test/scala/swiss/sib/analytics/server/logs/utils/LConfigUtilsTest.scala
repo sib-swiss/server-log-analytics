@@ -1,7 +1,7 @@
-package org.elixir.insights.server.logs.utils
+package swiss.sib.analytics.server.logs.utils
 
-import org.scalatest._
-import swiss.sib.analytics.server.logs.utils.LConfigUtils
+import org.scalatest.FlatSpec
+import org.scalatest.Matchers
 
 class ConfigUtilsTest extends FlatSpec with Matchers {
   
