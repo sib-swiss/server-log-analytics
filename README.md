@@ -1,15 +1,18 @@
 Log Analytics for SIB Servers in Scala Spark 
 
+[![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
+
 PROJECT UNDER ACTIVE DEVELOPMENT
 
-#Build the artifact
+# Build the artifact
 Requirements: Download Spark 2.1+ and set $SPARK_HOME environment variable
 
 ```shell
 sbt package
 ```
 
-#Convert Apache Logs to Parquet format
+# Convert Apache Logs to Parquet format
+
 ```shell
 SPARK_HOME=/data/user/tools/spark
 CMD="$SPARK_HOME/bin/spark-shell --executor-memory 1g --driver-memory 1g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
