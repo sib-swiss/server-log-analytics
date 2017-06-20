@@ -8,22 +8,22 @@ import swiss.sib.analytics.server.logs.model.LogClientInfo
 import swiss.sib.analytics.server.logs.model.LogEntry
 import swiss.sib.analytics.server.logs.model.LogRequestInfo
 import swiss.sib.analytics.server.logs.model.LogResponseInfo
-import io.thekraken.grok.api.Grok
 
 object LogEntryUtils {
-
 
   val formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z");
 
   val CONTROL_CHARS_PATTERN = """[\p{C}]"""
-  val PATTERN = """^(\S+) (\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(.*) (\S+) (.*)" (\d{3}) (\S+) "(.*)" "(.*)" (\S+) (.*) (\S+) (\S+) (\S+)""".r
+  
+  //Adapted from here: https://regex101.com/r/75x7uP/2/
+  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?(\S+)?\s?(\S+)?" (\d{3}|-) (\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
 
   def parseLogLine(log: String): LogEntry = {
 
-    val logFileWithoutControlChars = log.replaceAll(CONTROL_CHARS_PATTERN, "")
-    
-    logFileWithoutControlChars match {
-      case PATTERN(hostname, ipAddress, clientIdentd, userId, dateTime, method, endpoint, protocol, responseCode, contentSize, referer, agent, _, _, charset, _, _) => {
+    val cleanedLogFile = cleanupLogEntry(log.replaceAll(CONTROL_CHARS_PATTERN, ""))
+
+    cleanedLogFile match {
+      case PATTERN(server, ipAddress, clientIdentd, userId, dateTime, method, endpoint, protocol, responseCode, contentSize, referer, agent, remaining) => {
         try {
 
           //val locationInfo = LocationService.getCountryAndCity(ipAddress);
@@ -36,18 +36,17 @@ object LogEntryUtils {
           val contentPresent = !(contentSize.equals("-"))
           val content = if (contentPresent) contentSize.toLong else 0
 
-          val responseInfo = LogResponseInfo(responseCode.toInt, content, contentPresent, charset)
+          val responseInfo = LogResponseInfo(responseCode.toInt, content, contentPresent, extractMimeType(remaining))
 
           val logClientInfo = LogClientInfo(ipAddress, clientIdentd, userId)
 
           val requestInfo = LogRequestInfo(method, endpoint, protocol, EndPointUtils.getFirstLevelPath(endpoint))
 
-          
           LogEntry(
-            d.getDayOfMonth, 
-            d.getMonthValue, 
+            d.getDayOfMonth,
+            d.getMonthValue,
             d.getYear,
-            hostname,
+            if(server != null) server.trim() else "",
             logClientInfo,
             //locationInfo, 
             requestInfo,
@@ -56,10 +55,26 @@ object LogEntryUtils {
             agentInfo)
 
         } catch {
-          case e: Exception => throw new RuntimeException(s"""Failed to convert log line: $log""")
+          case e: Exception => throw new RuntimeException(s"""Failed to convert log line: $cleanedLogFile""")
         }
       }
-      case _ => throw new RuntimeException(s"""Cannot parse log line: $log""")
+      case _ => throw new RuntimeException(s"""Cannot parse log line: $cleanedLogFile""")
     }
+  }
+
+  val MIME_TYPE_PATTERN = """(.*)(audio|video|text|application|image)\/(\w+)(.*)""".r
+  def extractMimeType(text: String): String = {
+    text match {
+      case MIME_TYPE_PATTERN(_, first, second, _) => {
+        return first + "/" + second;
+      }
+      case _ => "mime type not available"
+    }
+  }
+  
+  
+  def cleanupLogEntry(text: String): String = {
+    //In case of OMA log files
+    return text.replaceAll("Cache:- ", "").replaceAll("  \"", " \"");
   }
 }

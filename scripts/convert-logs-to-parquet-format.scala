@@ -11,6 +11,6 @@ val start = System.currentTimeMillis();
 
 val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
-df.write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile)
+df.write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
 println("Finished in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")

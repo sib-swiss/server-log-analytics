@@ -1,8 +1,8 @@
 name: Test Log Analytics
 
-logDirectory: /scratch/local/monthly/dteixeir/log-analytics/logs-2016/**
+logDirectory: ./sample-logs/**
 
-parquetFile: /scratch/local/weekly/dteixeir/logs/prk/apache-logs.parquet
+parquetFile: logs.parquet
     
 botPattern: (.*)(?i)(bot|crawler|spider|pingdom|monitis|teoma|facebook|bing|yahoo|embedly|quora|outbrain|pinterest|vkshare|validator)(.*)
 

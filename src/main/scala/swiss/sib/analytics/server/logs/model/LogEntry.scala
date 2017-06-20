@@ -6,7 +6,7 @@ case class LogEntry(
   day: Integer,
   month: Integer,
   year: Integer,
-  hostname: String, //Usually the server where the apache service run
+  server: String, //Usually the server where the apache service run
   clientInfo: LogClientInfo,
   //locationInfo: LogLocationInfo, 
   requestInfo: LogRequestInfo,
