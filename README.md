@@ -6,7 +6,7 @@
 **PROJECT UNDER ACTIVE DEVELOPMENT**
 
 ## Build the artifact
-Requirements: Download Spark 2.1+ and set $SPARK_HOME environment variable
+Requirements: Download Spark 2.1+ and sbt
 
 ```shell
 sbt package
