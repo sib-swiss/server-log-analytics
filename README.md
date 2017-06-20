@@ -1,6 +1,7 @@
 # Scala Library used to analyse Apache Server Logs using Spark 
 
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
+[![codecov](https://codecov.io/gh/sib-swiss/server-log-analytics/branch/master/graph/badge.svg)](https://codecov.io/gh/sib-swiss/server-log-analytics)
 
 **PROJECT UNDER ACTIVE DEVELOPMENT**
 
