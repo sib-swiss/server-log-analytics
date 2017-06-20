@@ -4,14 +4,14 @@ Log Analytics for SIB Servers in Scala Spark
 
 PROJECT UNDER ACTIVE DEVELOPMENT
 
-##Build the artifact
+## Build the artifact
 Requirements: Download Spark 2.1+ and set $SPARK_HOME environment variable
 
 ```shell
 sbt package
 ```
 
-##Convert Apache Logs to Parquet format
+## Set the environment
 
 ```shell
 SPARK_HOME=/data/user/tools/spark
@@ -19,17 +19,18 @@ CMD="$SPARK_HOME/bin/spark-shell --executor-memory 1g --driver-memory 1g --jars 
 DEFAULT_CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
 ```
 
+## First step: Convert the apache logs to parquet format
 ```shell
 $CMD -i scripts/convert-logs-to-parquet-format.scala $DEFAULT_CONFIG
 ```
 
 
-#Run the analysis
+## Second step: Run the analysis on the parquet formatted logs
 ```shell
 spark-shell --driver-memory 60g -i analyse.scala
 ```
 
-#Run the analysis
+## Optional: Run the analysis on a cluster
 ```shell
 $SPARK_HOME/bin/spark-submit --class org.elixir.insights.server.logs.ServerLogAnalyser --master local[4] target/scala-2.11/server-log-analytics_2.11-1.0.jar
 ```
