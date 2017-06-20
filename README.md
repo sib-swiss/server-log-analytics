@@ -1,5 +1,7 @@
 Log Analytics for SIB Servers in Scala Spark 
 
+[![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
+
 PROJECT UNDER ACTIVE DEVELOPMENT
 
 ##Build the artifact
