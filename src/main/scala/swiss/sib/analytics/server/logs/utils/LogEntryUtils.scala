@@ -16,7 +16,7 @@ object LogEntryUtils {
   val CONTROL_CHARS_PATTERN = """[\p{C}]"""
   
   //Adapted from here: https://regex101.com/r/75x7uP/2/
-  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?(\S+)?\s?(\S+)?" (\d{3}|-) (\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
+  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?(.+)?\s(\S+)?" (\d{3}|-) (\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
 
   def parseLogLine(log: String): LogEntry = {
 
