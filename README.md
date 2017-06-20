@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
 
-PROJECT UNDER ACTIVE DEVELOPMENT
+**PROJECT UNDER ACTIVE DEVELOPMENT**
 
 ## Build the artifact
 Requirements: Download Spark 2.1+ and set $SPARK_HOME environment variable
