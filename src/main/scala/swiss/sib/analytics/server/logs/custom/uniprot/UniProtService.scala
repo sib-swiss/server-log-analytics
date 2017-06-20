@@ -3,7 +3,7 @@ package swiss.sib.analytics.server.logs.custom.uniprot
 object UniProtService {
 
   val ENTRY_PATH_PATTERN = """(\/uniprot\/)(\w{4,15})(.*)?""".r
-  val swissProtEntries = scala.io.Source.fromFile("swissprot-entries.txt").getLines().toSet
+  val swissProtEntries = scala.io.Source.fromFile("custom/uniprot/swissprot-entries.txt").getLines().toSet
 
   def getEntryAccessionProperty(endpoint: String): UniProtEntryPropery = {
     if (!endpoint.contains("query") && !endpoint.contains("opensearch")) {
