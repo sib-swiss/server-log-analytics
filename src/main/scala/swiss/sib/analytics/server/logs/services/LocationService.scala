@@ -1,7 +1,7 @@
 package swiss.sib.analytics.server.logs.services
 
-import swiss.sib.analytics.server.logs.ServerLogAnalyser
 import swiss.sib.analytics.server.logs.model.LogLocationInfo
+import swiss.sib.analytics.server.logs.utils.LConfig
 
 /**
  * Service used to retrieve location information based on IP addresses
@@ -10,12 +10,10 @@ object LocationService {
 
   val INTERNAL_IPS_PATTERN = """(^127\.)|(^10\.)|(^172\.1[6-9]\.)|(^172\.2[0-9]\.)|(^172\.3[0-1]\.)|(^192\.168\.)""".r
 
-  val locationServiceUrl: String = ServerLogAnalyser.config.getOrElse("LOCATION_SERVICE_URL", "http://freegeoip:8087/json/");
-
   val ipToCountries: scala.collection.mutable.Map[String, String] = new scala.collection.mutable.HashMap();
   val ipToCities: scala.collection.mutable.Map[String, String] = new scala.collection.mutable.HashMap();
 
-  def getCountryAndCity(ipAddress: String): LogLocationInfo = {
+  def getCountryAndCity(locationServiceUrl: String, ipAddress: String): LogLocationInfo = {
 
         if (!ipToCountries.contains(ipAddress)) {
 

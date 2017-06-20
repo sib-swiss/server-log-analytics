@@ -7,5 +7,8 @@ val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
 val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
+//Logger.getLogger("org").setLevel(Level.OFF);
+//Logger.getLogger("akka").setLevel(Level.OFF);
+ 
 //This lists of all IPs
 df.groupBy($"""clientInfo.ipAddress""").agg(count("*") as "hits").orderBy($"hits" desc).collect().foreach(println)
