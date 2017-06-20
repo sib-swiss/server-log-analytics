@@ -1,6 +1,13 @@
+import swiss.sib.analytics.server.logs._
+import swiss.sib.analytics.server.logs.utils.LConfigUtils
+import swiss.sib.analytics.server.logs.utils.LogEntryUtils
+
 val GB_FACTOR = scala.math.pow(1024.0, 3);
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
-val df = sqlContext.read.parquet("/scratch/local/weekly/dteixeir/logs/prk/apache-logs.parquet")
+
+val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
+
+val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
 val fw = new java.io.FileWriter("results.tsv")
 
@@ -9,7 +16,7 @@ def prt(s: String) = {
 }
 
 val maxResults = 20;
-val dimensions = List("hostname",
+val dimensions = List("server",
   "responseInfo.contentPresent", "responseInfo.charset",
   "agentInfo.isBot", "agentInfo.isProgram",
   "agentInfo.bot", "agentInfo.program",
