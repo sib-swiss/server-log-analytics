@@ -14,7 +14,7 @@ sbt package
 ## Set the environment
 
 ```shell
-SPARK_HOME=/data/user/tools/spark
+SPARK_HOME=$HOME/spark
 CMD="$SPARK_HOME/bin/spark-shell --executor-memory 1g --driver-memory 1g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
 DEFAULT_CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
 ```
