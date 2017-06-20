@@ -1,6 +1,7 @@
 # Scala Library used to analyse Apache Server Logs using Spark 
 
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
+[![codecov](https://codecov.io/gh/sib-swiss/server-log-analytics/branch/master/graph/badge.svg)](https://codecov.io/gh/sib-swiss/server-log-analytics)
 
 **PROJECT UNDER ACTIVE DEVELOPMENT**
 
@@ -16,7 +17,7 @@ sbt package
 ```shell
 SPARK_HOME=$HOME/spark #On home directory
 JAVA_HOME=/software/Development/java_jdk/1.8.0_112/ #On Vital-IT cluster
-CMD="$SPARK_HOME/bin/spark-shell --executor-memory 1g --driver-memory 1g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
+CMD="$SPARK_HOME/bin/spark-shell --executor-memory 50g --driver-memory 50g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
 DEFAULT_CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
 ```
 
