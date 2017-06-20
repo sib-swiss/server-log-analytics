@@ -1,4 +1,4 @@
-Log Analytics for SIB Servers in Scala Spark 
+# Generic library used to process Server Logs using Scala Spark 
 
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
 
