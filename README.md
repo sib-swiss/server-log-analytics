@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
 [![codecov](https://codecov.io/gh/sib-swiss/server-log-analytics/branch/master/graph/badge.svg)](https://codecov.io/gh/sib-swiss/server-log-analytics)
 
-**PROJECT UNDER ACTIVE DEVELOPMENT**
+**BE AWARE, THIS PROJECT IS UNDER ACTIVE DEVELOPMENT**
 
 ## Build the artifact
 Requirements: [Download Spark 2.1+](https://spark.apache.org/downloads.html) to run and [sbt](http://www.scala-sbt.org/download.html)to build the project
