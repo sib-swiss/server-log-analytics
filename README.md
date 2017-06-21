@@ -33,6 +33,7 @@ CMD="$SPARK_HOME/bin/spark-shell --executor-memory 50g --driver-memory 50g --jar
 DEFAULT_CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
 ```
 
+Change the default-config.yml to point to your file.
 
 ```shell
 $CMD -i scripts/convert-logs-to-parquet-format.scala $DEFAULT_CONFIG
