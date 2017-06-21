@@ -5,13 +5,16 @@
 
 **BE AWARE, THIS PROJECT IS UNDER ACTIVE DEVELOPMENT**
 
+Requirements: 
+* [Download Spark 2.1+](https://spark.apache.org/downloads.html)
+* Java [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [sbt](http://www.scala-sbt.org/download.html) (to build the project)
+
 ## Build the artifact
-Requirements: [Download Spark 2.1+](https://spark.apache.org/downloads.html) to run and [sbt](http://www.scala-sbt.org/download.html)to build the project
 
 ```shell
 sbt package
 ```
-
 
 ## 1) Convert the apache logs to parquet format
 
