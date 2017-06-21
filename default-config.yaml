@@ -1,15 +1,7 @@
 name: Test Log Analytics
 
+#Directory where to find the log files
 logDirectory: ./sample-logs/**
 
+#Directory where to output or read the parquet file
 parquetFile: logs.parquet
-    
-botPattern: (.*)(?i)(bot|crawler|spider|pingdom|monitis|teoma|facebook|bing|yahoo|embedly|quora|outbrain|pinterest|vkshare|validator)(.*)
-
-programPattern : (.*)(?i)(python|java|perl|wget|ruby|curl)(.*)
-
-grokFormat: COMBINEDAPACHELOG
-
-fileName: /home/dteixeir/log-analytics/log-uniprot/*
-
-locationServiceUrl: http://localhost:8087/json/
