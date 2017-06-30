@@ -9,23 +9,20 @@ import java.io.PrintWriter
 
 case class YamlConfig(name: String,
                       logDirectory: String,
-                      parquetFile: String,
-                      botPattern: String,
-                      programPattern: String)
+                      parquetFile: String)
 
 object ConfigYamlProtocol extends DefaultYamlProtocol {
-  implicit val configFormat = yamlFormat5(YamlConfig)
+  implicit val configFormat = yamlFormat3(YamlConfig)
 }
 
 object LConfigUtils {
 
   def convertYamlToLConfig(yc: YamlConfig): LConfig = {
 
-    val config = new LConfig(yc.name,
+    val config = new LConfig(
+      yc.name,
       new File(yc.logDirectory),
-      new File(yc.parquetFile),
-      new Regex(yc.botPattern),
-      new Regex(yc.programPattern))
+      new File(yc.parquetFile))
 
     println("Config: " + config)
     config;
