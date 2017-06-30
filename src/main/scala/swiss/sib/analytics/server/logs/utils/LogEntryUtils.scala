@@ -75,6 +75,7 @@ object LogEntryUtils {
   
   def cleanupLogEntry(text: String): String = {
     //In case of OMA log files
-    return text.replaceAll("Cache:- ", "").replaceAll("  \"", " \"");
+    //TODO include Cache in regex?
+    return text.replaceAll("Cache:- ", "").replaceAll("Cache:MISS ", "").replaceAll("  \"", " \"");
   }
 }

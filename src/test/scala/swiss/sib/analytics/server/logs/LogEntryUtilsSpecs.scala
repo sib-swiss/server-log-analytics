@@ -52,8 +52,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     //  case PATTERN(hostname, ipAddress, clientIdentd, userId, dateTime, method, endpoint, protocol, responseCode, contentSize, referer, agent, remaining) => {
 
     val l0 = """127.0.0.1 - - [08/May/2017:06:25:16 +0000]  "GET /oma HTTP/1.1" 403 Cache:- 150 "-" "Mozilla/5.0 (compatible; SemrushBot/1.2~bl; +http://www.semrush.com/bot.html)""""
+    val l1 = """127.0.0.1 - omabrowser.org [08/May/2017:17:24:54 +0000] "GET /cgi-bin/gateway.pl?f=DisplayEntry&p1=5759318&p2=info HTTP/1.1" 200 Cache:MISS 4564 "-" "Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)""""
 
-    val le = List(l0).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
     
     println(le)
     
