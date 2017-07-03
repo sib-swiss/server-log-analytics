@@ -30,13 +30,13 @@ JAVA_HOME=/software/Development/java_jdk/1.8.0_112/
 SPARK_HOME=$HOME/spark #On home directory
 
 CMD="$SPARK_HOME/bin/spark-shell --executor-memory 50g --driver-memory 50g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
-DEFAULT_CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
+CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
 ```
 
 Change the default-config.yml to point to your file.
 
 ```shell
-$CMD -i scripts/convert-logs-to-parquet-format.scala $DEFAULT_CONFIG
+$CMD -i scripts/convert-logs-to-parquet-format.scala $CONFIG
 ```
 
 
