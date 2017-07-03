@@ -1,0 +1,7 @@
+name: Test Log Analytics
+
+#Directory where to find the log files
+logDirectory: /scratch/cluster/monthly/dteixeir/impact-study-sample-data/oma-log-example/**
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/cluster/monthly/dteixeir/impact-study-sample-data/oma-logs.parquet

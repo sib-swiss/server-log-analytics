@@ -4,7 +4,6 @@ module add Development/java_jdk/1.8.0_112;
 JAVA_HOME=/software/Development/java_jdk/1.8.0_112/
 SPARK_HOME=$HOME/spark #On home directory
 
-
 EXEC_MEM=50g
 DRIVER_MEM=50g
 EXTRA_JARS=lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar
@@ -18,7 +17,7 @@ echo "Using config file ${CONFIG_FILE}"
 echo "---"
 
 PS3='Please choose your action: '
-options=("Convert Parquet" "Option 2" "Option 3" "Quit")
+options=("Convert Parquet" "Insights Report" "Option 3" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
@@ -26,8 +25,9 @@ do
             echo "Executing ${CMD}"
             $CMD -i scripts/convert-logs-to-parquet-format.scala $CONFIG
             ;;
-        "Option 2")
-            echo "you chose choice 2"
+        "Insights Report")
+            echo "Executing ${CMD}"
+            $CMD -i scripts/generate-insights-report.scala $CONFIG
             ;;
         "Option 3")
             echo "you chose choice 3"
