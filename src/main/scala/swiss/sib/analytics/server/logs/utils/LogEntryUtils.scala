@@ -75,6 +75,6 @@ object LogEntryUtils {
   
   def cleanupLogEntry(text: String): String = {
     //In case of OMA log files
-    return text.replaceAll("  \"", " \"");
+    return text.replaceAll("  \"", " \"").replace("\\\"", "'");
   }
 }

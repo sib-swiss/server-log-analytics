@@ -35,8 +35,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     //Sample of a STRING log file (starting with 1)
     val l1 = """127.0.0.1 - - [07/Dec/2015:00:00:00 +0000] "GET /new/string HTTP/1.1" 200 70353 "http://string-db.org/version_10/newstring_cgi/show_network_section.pl" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.86 Safari/537.36" **1/1467435**"""
     val l2 = """127.0.0.1 - - [12/Dec/2015:08:39:15 +0000] "GET /newstring_cgi/show_network_section.pl?identifier=127851 133601 127043 121885 117360 117359 133054 122481&additional_network_nodes=10&advanced_menu=yes&chemicalmode=-1&input_query_species=3702&interactive=yes&internal_call=1&limit=10&minprotchem=0&network_flavor=evidence&previous_network_size=18&required_score=400&sessionId=_dIQqTK6Z23u&targetmode=proteins&userId=XB25gLAsxE_b HTTP/1.1" 200 9255 "http://string-db.org/newstring_cgi/show_network_section.pl" "Mozilla/5.0 (Linux; U; Android 4.4.2; zh-cn; GT-I9500 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 MQQBrowser/5.0 QQ-URL-Manager Mobile Safari/537.36" **0/597129**"""
+    val l3 = """127.0.0.1 - - [05/Jan/2017:14:22:53 +0000] "GET /javascript/basic/\" + loadingImgUrl + \" HTTP/1.1" 404 9468 "-" "Java/1.4.1_04" **0/337226**"""
 
-    val le = List(l1, l2).map(LogEntryUtils.parseLogLine)
+    val le = List(l1, l2, l3).map(LogEntryUtils.parseLogLine)
 
     le(0).requestInfo.method should equal("GET")
     le(0).requestInfo.url should equal("/new/string")
