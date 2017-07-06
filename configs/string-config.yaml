@@ -1,0 +1,7 @@
+name: STRING
+
+#Directory where to find the log files
+logDirectory: /scratch/local/monthly/dteixeir/impact-study-sample-data/string-logs-2016/**
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/monthly/dteixeir/impact-study-sample-data/parquet-logs/string

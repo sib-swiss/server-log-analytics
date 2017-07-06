@@ -38,7 +38,7 @@ val metrics = List(
   ("server_distinct-ips", countDistinct("clientInfo.ipAddress") as "server_distinct-ips"))
 
 
-val name = "oma"
+val name = "STRING"
 val year = "2016"
 
 metrics.foreach(m => {
