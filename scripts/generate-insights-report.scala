@@ -22,7 +22,8 @@ def prt(s: String, fw: java.io.FileWriter = null) = {
 
 val maxResults = 20;
 val dimensions = List("server",
-  //"responseInfo.contentPresent", "responseInfo.charset",
+  //"responseInfo.contentPresent", 
+  "responseInfo.charset",
   //"agentInfo.isBot", "agentInfo.isProgram",
   //"agentInfo.bot", "agentInfo.program",
   //"requestInfo.url", "requestInfo.firstLevelPath",
@@ -57,7 +58,7 @@ metrics.foreach(m => {
       val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
       dimensions.foreach(dimension => {
        prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
-       val data = df.groupBy($"""$dimension""").agg(function).orderBy($"""$metric""" desc).limit(maxResults).collect().foreach(r => prt(r.mkString("\t"), fwd))
+       val data = df.groupBy($"""$dimension""").agg(function).orderBy($"""$metric""" desc).limit(maxResults).collect().foreach(r => prt(dimension + "\t" + r.mkString("\t"), fwd))
       })
       fwd.close
 

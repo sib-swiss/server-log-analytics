@@ -18,46 +18,23 @@ sbt package
 
 ## 1) Convert the apache logs to parquet format
 
-### Set the environment
+### Run the start script
 
 ```shell
-
-#Set Java 8, the settings below are for Vital-IT machines
-module add Development/java_jdk/1.8.0_112;
-JAVA_HOME=/software/Development/java_jdk/1.8.0_112/
-
-#Set SPARK_HOME environment variable to the folder where SPARK was uncompressed
-SPARK_HOME=$HOME/spark #On home directory
-
-CMD="$SPARK_HOME/bin/spark-shell --executor-memory 50g --driver-memory 50g --jars lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar,target/scala-2.11/server-log-analytics_2.11-1.0.jar"
-CONFIG="--conf spark.driver.extraJavaOptions=\"-Dconfig.file=default-config.yaml\""
+./start.sh configs/oma-config.yaml
 ```
 
-Change the default-config.yml to point to your file.
-
-```shell
-$CMD -i scripts/convert-logs-to-parquet-format.scala $CONFIG
-```
-
-
-## 2) Run the script on the parquet formatted logs
-
-Set the appropriate memory depending on the amount of files to analyse and your machine specs (min: 1g  max: 500g or more...)
-```
-SPARK_SCRIPT_MEMORY=--driver-memory 10g
-```
-
-Choose the appropriated script
+Choose the appropriated option
 
 ### script unique IPs - genereate  
 
 ```shell
-spark-shell $SPARK_SCRIPT_MEMORY -i scripts/get-list-of-unique-ips.scala
+1)
 ```
 
 ### script insights - genereate report to be integrated into [SIB Insights](https://insights.expasy.org/) 
 ```shell
-spark-shell $SPARK_SCRIPT_MEMORY -i scripts/generate-insights-report.scala
+2)
 ```
 
 ### script insights - genereate  
