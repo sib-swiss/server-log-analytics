@@ -2,15 +2,21 @@ import swiss.sib.analytics.server.logs._
 import swiss.sib.analytics.server.logs.utils.LConfigUtils
 import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 
+//Can not initialize counter due to context is not a instance of TaskInputOutputContext
+//Logger.getLogger("parquet").setLevel(Level.OFF);
+
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
-val df = sqlContext.read.parquet(config.parquetFile.getPath)
+val name = scala.io.StdIn.readLine("Resource name in Insights (ex. STRING) : ")
+val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
+
+val df = sqlContext.read.parquet(config.parquetFile.getPath).filter($"year" === year)
 
 def createFileWriter (path : String) = {
     val file = new java.io.File(path)
     file.getParentFile.mkdirs
-    new java.io.FileWriter(file)
+    new java.io.FileWriter(file, true)
 }
 
 def prt(s: String, fw: java.io.FileWriter = null) = {
@@ -20,8 +26,8 @@ def prt(s: String, fw: java.io.FileWriter = null) = {
   }
 }
 
-val maxResults = 20;
-val dimensions = List("server",
+val maxResults = 100;
+/*val dimensions = List("server",
   //"responseInfo.contentPresent", 
   "responseInfo.charset",
   //"agentInfo.isBot", "agentInfo.isProgram",
@@ -30,20 +36,26 @@ val dimensions = List("server",
   //"locationInfo.city", "locationInfo.country",
   //"entryType.database", "entryType.accession", 
   "clientInfo.ipAddress");
-
+*/
 
 val metrics = List(
-  ("server_hits", count("*") as "server_hits"),
-  ("server_throughput", sum("responseInfo.contentSize") as "server_throughput"),
-  ("server_distinct-ips", countDistinct("clientInfo.ipAddress") as "server_distinct-ips"))
-
-
-val name = "STRING"
-val year = "2016"
+  ("server_hits", count("*") as "server_hits", 
+	List(("responseInfo.contentPresent", "content_length_present"), 
+            ("agentInfo.isBot", "bot_traffic"), 
+            ("responseInfo.charset", "charset"), 
+            ("clientInfo.ipAddress", "TopIPs"))),
+  
+  ("server_throughput", sum("responseInfo.contentSize") as "server_throughput",
+	List(("agentInfo.isBot", "bot_traffic"), 
+             ("responseInfo.charset", "charset"), 
+             ("clientInfo.ipAddress", "TopIPs"))),
+  
+  ("server_distinct_ips", countDistinct("clientInfo.ipAddress") as "server_distinct_ips",
+	List(("agentInfo.isBot", "bot_traffic"))))
 
 metrics.foreach(m => {
   m match {
-    case (metric, function) => {
+    case (metric, function, dimensions) => {
 
       val fileName = name + "/" + year + "/" + m._1 
       val fw = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + ".tsv")
@@ -53,13 +65,13 @@ metrics.foreach(m => {
       //Shows metrics by date
       df.groupBy($"month", $"year").agg(function).orderBy($"year" asc, $"month" asc).collect().foreach(r => prt(r.mkString("\t"), fw));
 
-
       //Shows metrics by dimensions
       val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
-      dimensions.foreach(dimension => {
+      dimensions.foreach(d => {
+			d match case {(dimension, dimensionAlias) => {
        prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
-       val data = df.groupBy($"""$dimension""").agg(function).orderBy($"""$metric""" desc).limit(maxResults).collect().foreach(r => prt(dimension + "\t" + r.mkString("\t"), fwd))
-      })
+       val data = df.groupBy($"""$dimension""").agg(function).orderBy($"""$metric""" desc).limit(maxResults).collect().foreach(r => prt(dimensionAlias + "\t" + r.mkString("\t"), fwd))
+      }}})
       fwd.close
 
       //Special case to show top entries by accession type
