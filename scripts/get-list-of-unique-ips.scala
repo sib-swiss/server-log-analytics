@@ -12,13 +12,11 @@ val start = System.currentTimeMillis();
 
 val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
-val fileName = readLine("Save Distinct IP file")
-
-//Logger.getLogger("org").setLevel(Level.OFF);
-//Logger.getLogger("akka").setLevel(Level.OFF);
+val fileName = readLine("Save Distinct IP file: ")
+val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
  
 //This lists of all IP
-val resultDF = df.groupBy($"""clientInfo.ipAddress""").agg(count("*") as "hits").orderBy($"hits" desc)
+val resultDF = df.filter($"year" === year).groupBy($"""clientInfo.ipAddress""").agg(count("*") as "hits").orderBy($"hits" desc)
 
 resultDF.coalesce(1).write.option("header", "true").csv(fileName)
 
