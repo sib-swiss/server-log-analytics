@@ -41,17 +41,28 @@ val maxResults = 100;
 val metrics = List(
   ("server_hits", count("*") as "server_hits", 
 	List(("responseInfo.contentPresent", "content_length_present"), 
-            ("agentInfo.isBot", "bot_traffic"), 
-            ("responseInfo.charset", "charset"), 
-            ("clientInfo.ipAddress", "TopIPs"))),
+            ("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"),
+            ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),  
+	    ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
+            ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"),
+            ("clientInfo.ipAddress", "top_ips")))
+
+  ,  
   
   ("server_throughput", sum("responseInfo.contentSize") as "server_throughput",
-	List(("agentInfo.isBot", "bot_traffic"), 
-             ("responseInfo.charset", "charset"), 
-             ("clientInfo.ipAddress", "TopIPs"))),
+	List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"),
+	    ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "TopPages"),	
+	    ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
+            ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"), 
+	    ("clientInfo.ipAddress", "TopIPs")))
+
+  ,
   
   ("server_distinct_ips", countDistinct("clientInfo.ipAddress") as "server_distinct_ips",
-	List(("agentInfo.isBot", "bot_traffic"))))
+	List(("agentInfo.isBot", "bot_traffic")))
+  
+
+)
 
 metrics.foreach(m => {
   m match {
@@ -61,28 +72,27 @@ metrics.foreach(m => {
       val fw = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + ".tsv")
 
       prt(metric + "_per_months_ ################################# ")
-
+	
       //Shows metrics by date
+      val total : Number = df.groupBy($"year").agg(function).first().get(1).asInstanceOf[Number]
       df.groupBy($"month", $"year").agg(function).orderBy($"year" asc, $"month" asc).collect().foreach(r => prt(r.mkString("\t"), fw));
 
       //Shows metrics by dimensions
       val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
       dimensions.foreach(d => {
-			d match case {(dimension, dimensionAlias) => {
-       prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
-       val data = df.groupBy($"""$dimension""").agg(function).orderBy($"""$metric""" desc).limit(maxResults).collect().foreach(r => prt(dimensionAlias + "\t" + r.mkString("\t"), fwd))
-      }}})
+       d match { 
+	case (dimension, dimensionAlias) => {
+       		prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
+       		val data = df.groupBy($"""$dimension""")
+		    .agg(function).orderBy($"""$metric""" desc)
+		    .limit(maxResults).collect()
+		    .foreach(r => {	
+				val lvalue : Number = r.get(1).asInstanceOf[Number]
+				val percentage = (((lvalue.doubleValue * 10000) / total.longValue).toInt / 100.0)
+				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage, fwd)
+				
+		     })}}})
       fwd.close
-
-      //Special case to show top entries by accession type
-      /*List("trembl", "swissprot").foreach(db => {
-        prt("\nTop_" + maxResults + "_" + metric + "_for_proteins_in_entryType.database_=_" + db + " ############");
-        val data = df
-          .filter($"entryType.database" === db)
-          .groupBy($"entryType.accession")
-          .agg(function)
-          .orderBy($"""$metric""" desc).limit(maxResults).foreach(r => prt(r.mkString("\t")))
-      })*/
 
       prt("\n");    
       fw.close
