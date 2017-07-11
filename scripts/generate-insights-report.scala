@@ -30,17 +30,17 @@ val maxResults = 100;
 val metrics = List(
   ("server_hits", count("*") as "server_hits", 
 	List(("responseInfo.contentPresent", "content_length_present"), 
-            ("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"),
+            ("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent"),
             ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),  
-	    ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
+	          ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
             ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"),
             ("clientInfo.ipAddress", "top_ips")))
 
   ,  
   
   ("server_throughput", sum("responseInfo.contentSize") as "server_throughput",
-	List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"),
-	    ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),	
+  List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent"),
+    ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),	
 	    ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
             ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"), 
 	    ("clientInfo.ipAddress", "top_ips")))
@@ -48,8 +48,7 @@ val metrics = List(
   ,
   
   ("server_distinct_ips", countDistinct("clientInfo.ipAddress") as "server_distinct_ips",
-	List(("agentInfo.isBot", "bot_traffic")))
-  
+	List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent")))  
 
 )
 
