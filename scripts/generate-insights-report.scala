@@ -88,7 +88,7 @@ metrics.foreach(m => {
 		    .limit(maxResults).collect()
 		    .foreach(r => {	
 				val lvalue : Number = r.get(1).asInstanceOf[Number]
-				val percentage = (((lvalue.doubleValue * 10000) / total.longValue).toInt / 100.0)
+				val percentage = lvalue.doubleValue / total.longValue
 				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage, fwd)
 				
 		     })}}})
