@@ -77,9 +77,8 @@ metrics.foreach(m => {
 		    .foreach(r => {	
 				val lvalue : Number = r.get(1).asInstanceOf[Number]
 				val percentage = lvalue.doubleValue / total.longValue
-				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage, fwd)
-				
-		     })}}})
+				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage + "\t" + r.get(1), fwd)
+	     })}}})
       fwd.close
 
       prt("\n");    

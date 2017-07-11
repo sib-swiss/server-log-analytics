@@ -12,7 +12,8 @@ val start = System.currentTimeMillis();
 
 val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
-val fileName = readLine("Save Distinct IP file: ")
+val fileName = scala.io.StdIn.readLine("Resource name in Insights (ex. STRING) : ")
+
 val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
  
 //This lists of all IP
