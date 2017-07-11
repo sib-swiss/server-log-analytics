@@ -51,10 +51,10 @@ val metrics = List(
   
   ("server_throughput", sum("responseInfo.contentSize") as "server_throughput",
 	List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"),
-	    ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "TopPages"),	
+	    ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),	
 	    ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
             ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"), 
-	    ("clientInfo.ipAddress", "TopIPs")))
+	    ("clientInfo.ipAddress", "top_ips")))
 
   ,
   
