@@ -16,7 +16,7 @@ object AgentUtils {
   def getProgramInfo(agent: String): (String, Boolean) = {
     agent match {
       case PROGRAM_PATTERN(_, program, _) => return (program.toLowerCase().trim(), true);
-      case _                              => return ("not-program-pattern", false);
+      case _                              => return ("not-programmatic-pattern", false);
     }
   }
 }
