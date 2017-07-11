@@ -86,5 +86,24 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
 
   }
+  
+  "LogEntryUtils" should "parse correctly progenetix log entries" in {
+
+    val l0 = """127.0.0.1 - - [08/Feb/2017:09:15:41 +0100] "-" 408 - "-" "-""""
+
+    val le = List(l0).map(LogEntryUtils.parseLogLine)
+
+    println(le)
+
+    le(0).clientInfo.ipAddress should equal("127.0.0.1")
+    le(0).responseInfo.status should equal(408)
+    le(0).requestInfo.method should equal("method-not-defined")
+    le(0).requestInfo.url should equal("url-not-defined")
+    le(0).requestInfo.protocol should equal("protocol-not-defined")
+    le(0).requestInfo.firstLevelPath should equal("not-defined")
+
+  }
+  
+  
 
 }

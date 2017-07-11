@@ -16,15 +16,19 @@ object LogEntryUtils {
   val CONTROL_CHARS_PATTERN = """[\p{C}]"""
   
   //Adapted from here: https://regex101.com/r/75x7uP/2/
-  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?([^"]+)?\s(\S+)?" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
+  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?([^"]+)?[\s-](\S+)?" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
 
   def parseLogLine(log: String): LogEntry = {
 
     val cleanedLogFile = cleanupLogEntry(log.replaceAll(CONTROL_CHARS_PATTERN, ""))
 
     cleanedLogFile match {
-      case PATTERN(server, ipAddress, clientIdentd, userId, dateTime, method, endpoint, protocol, responseCode, _, contentSize, referer, agent, remaining) => {
+      case PATTERN(server, ipAddress, clientIdentd, userId, dateTime, optMethod, optEndpoint, optProtocol, responseCode, _, contentSize, referer, agent, remaining) => {
         try {
+          
+          val method = if(optMethod != null) optMethod else "method-not-defined" 
+          val endpoint = if(optEndpoint != null) optEndpoint else "url-not-defined" 
+          val protocol = if(optProtocol != null) optProtocol else "protocol-not-defined" 
 
           //val locationInfo = LocationService.getCountryAndCity(ipAddress);
           val botInfo = AgentUtils.getBotInfo(agent);
