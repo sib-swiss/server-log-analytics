@@ -17,7 +17,7 @@ val errors = df.filter(!$"successfulParsing")
 
 if(errors.count > 0) {
   println("Errors:" )
-  errors.foreach(println)
+  errors.collect.foreach(println)
   println(" ")
   println("Finished with " + errors.count + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
 }else {
