@@ -3,6 +3,8 @@ package swiss.sib.analytics.server.logs.model
 import swiss.sib.analytics.server.logs.custom.uniprot.UniProtEntryPropery
 
 case class LogEntry(
+  successfulParsing: Boolean,
+  debugInfo: String,
   day: Integer,
   month: Integer,
   year: Integer,

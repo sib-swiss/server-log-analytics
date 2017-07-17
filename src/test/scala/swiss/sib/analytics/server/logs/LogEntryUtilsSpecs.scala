@@ -90,8 +90,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
 
     val l0 = """127.0.0.1 - - [08/Feb/2017:09:15:41 +0100] "-" 408 - "-" "-""""
     val l1 = """127.0.0.1 - - [25/Apr/2017:23:49:09 +0200] "Gh0st\xad" 400 226 "-" "-""""
+    val l2 = """127.0.0.1 - - [25/Feb/2017:17:35:06 +0100] "GET /Wiki/System/WebSearch?recurse=;casesensitive=;excludetopic=;web=;search=%5EV;nosearch=;cover=print;SEARCHb2e0c660d1a82ac160a978d79f6646af=1;type=regex127.0.0.1 - - [25/Feb/2017:17:37:47 +0100] "GET /Wiki/System/DefaultWidgets?skin=widgets;skin=widgets;skin=widgets;widgetscolumns=wt;widgetscolumns=wm;widgetscolumns=twt;widgetscolumns=twt;widgetscolumns=wt;colsidx=2;colsidx=6;colsidx=4;colsidx=4;colsidx=2;sortcol=2;table=1;up=1 HTTP/1.1" 500 2400 "-" "Mozilla/5.0 (compatible; MJ12bot/v1.4.7; http://mj12bot.com/)""""
 
-    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1, l2).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
     le(0).responseInfo.status should equal(408)
@@ -100,6 +101,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(0).requestInfo.protocol should equal("protocol-not-defined")
     le(0).requestInfo.firstLevelPath should equal("not-defined")
 
+    //Failure to parser mixed logged line
+    le(2).successfulParsing should be (false)
+    
   }
   
   

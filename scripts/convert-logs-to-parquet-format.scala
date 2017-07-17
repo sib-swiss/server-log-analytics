@@ -9,8 +9,17 @@ val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
 val start = System.currentTimeMillis();
 
-val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
+val parsedLoggedFiles = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
-df.write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
+df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
-println("Finished in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+val errors = df.filter(!$"successfulParsing")
+
+if(!errors.isEmpty) {
+  println("Errors:" )
+  errors.foreach(println)
+  println(" ")
+  println("Finished with " + errors.length + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+}else {
+  println("Finished successfully in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+}
