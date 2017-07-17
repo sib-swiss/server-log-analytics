@@ -9,7 +9,7 @@ val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
 val start = System.currentTimeMillis();
 
-val parsedLoggedFiles = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
+val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
 df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
