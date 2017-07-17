@@ -16,20 +16,53 @@ object LogEntryUtils {
   val CONTROL_CHARS_PATTERN = """[\p{C}]"""
   
   //Adapted from here: https://regex101.com/r/75x7uP/2/
-  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(\S+)?\s?([^"]+)?[\s-](\S+)?" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
+  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "([^"]+)" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
+  
+  
+  def extractHTTPVersion (spacesToken: Array[String]) : String = {
+    if(spacesToken.length >= 2){
+      val version = spacesToken(spacesToken.length -1 );
+      if(version.toUpperCase().startsWith("HTTP")){
+        return version;
+      }
+    }
+    return "protocol-not-defined";
+  }
+  
+  def extractEndpoint (request: String, spacesToken: Array[String], method: String, protocol: String) : String = {
+   
+    if(spacesToken.length >= 2){
+      val result = request.replaceFirst(method, "").reverse.replaceFirst(protocol.reverse, "").reverse.trim()
+      return result;
+    }
+    return request;
+  }
+  
+  def extractHTTPVerb (spacesToken: Array[String]) : String = {
+   
+    if(spacesToken.length >= 2){
+      val verb = spacesToken(0);
+      if(verb.equalsIgnoreCase("GET") || verb.equalsIgnoreCase("POST")  || verb.equalsIgnoreCase("PUT") || verb.equalsIgnoreCase("HEAD") || verb.equalsIgnoreCase("OPTIONS") || verb.equalsIgnoreCase("CONNECT")){
+        return verb;
+      }
+    }
+    return "method-not-defined";
+  }
+  
 
   def parseLogLine(log: String): LogEntry = {
 
     val cleanedLogFile = cleanupLogEntry(log.replaceAll(CONTROL_CHARS_PATTERN, ""))
 
     cleanedLogFile match {
-      case PATTERN(server, ipAddress, clientIdentd, userId, dateTime, optMethod, optEndpoint, optProtocol, responseCode, _, contentSize, referer, agent, remaining) => {
+      case PATTERN(server, ipAddress, clientIdentd, userId, dateTime, request, responseCode, _, contentSize, referer, agent, remaining) => {
         try {
           
-          val method = if(optMethod != null) optMethod else "method-not-defined" 
-          val endpoint = if(optEndpoint != null) optEndpoint else "url-not-defined" 
-          val protocol = if(optProtocol != null) optProtocol else "protocol-not-defined" 
-
+          val spacesToken = request.split(" ");
+          val method = extractHTTPVerb(spacesToken);
+          val protocol = extractHTTPVersion(spacesToken);
+          val endpoint = extractEndpoint(request, spacesToken, method, protocol);
+          
           //val locationInfo = LocationService.getCountryAndCity(ipAddress);
           val botInfo = AgentUtils.getBotInfo(agent);
           val programInfo = AgentUtils.getProgramInfo(agent);

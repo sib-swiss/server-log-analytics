@@ -4,6 +4,7 @@ import org.scalatest.FlatSpec
 import org.scalatest.Matchers
 
 import swiss.sib.analytics.server.logs.utils.LogEntryUtils
+import org.scalatest.Ignore
 
 class LogEntryUtilsSpecs extends FlatSpec with Matchers {
 
@@ -44,6 +45,8 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(0).requestInfo.firstLevelPath should equal("/new")
     le(0).requestInfo.protocol should equal("HTTP/1.1")
 
+    le(2).requestInfo.protocol should equal("HTTP/1.1")
+
   }
 
   "LogEntryUtils" should "parse correctly OMA log entries" in {
@@ -56,8 +59,6 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     val l1 = """127.0.0.1 - omabrowser.org [08/May/2017:17:24:54 +0000] "GET /cgi-bin/gateway.pl?f=DisplayEntry&p1=5759318&p2=info HTTP/1.1" 200 Cache:MISS 4564 "-" "Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)""""
 
     val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
-
-    println(le)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
 
@@ -81,8 +82,6 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
 
     val le = List(l0).map(LogEntryUtils.parseLogLine)
 
-    println(le)
-
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
 
   }
@@ -90,15 +89,14 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
   "LogEntryUtils" should "parse correctly progenetix log entries" in {
 
     val l0 = """127.0.0.1 - - [08/Feb/2017:09:15:41 +0100] "-" 408 - "-" "-""""
+    val l1 = """127.0.0.1 - - [25/Apr/2017:23:49:09 +0200] "Gh0st\xad" 400 226 "-" "-""""
 
-    val le = List(l0).map(LogEntryUtils.parseLogLine)
-
-    println(le)
+    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
     le(0).responseInfo.status should equal(408)
     le(0).requestInfo.method should equal("method-not-defined")
-    le(0).requestInfo.url should equal("url-not-defined")
+    le(0).requestInfo.url should equal("-")
     le(0).requestInfo.protocol should equal("protocol-not-defined")
     le(0).requestInfo.firstLevelPath should equal("not-defined")
 
