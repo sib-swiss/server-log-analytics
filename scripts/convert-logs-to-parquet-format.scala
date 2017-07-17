@@ -15,11 +15,11 @@ df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format
 
 val errors = df.filter(!$"successfulParsing")
 
-if(!errors.isEmpty) {
+if(errors.count > 0) {
   println("Errors:" )
   errors.foreach(println)
   println(" ")
-  println("Finished with " + errors.length + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+  println("Finished with " + errors.count + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
 }else {
   println("Finished successfully in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
 }
