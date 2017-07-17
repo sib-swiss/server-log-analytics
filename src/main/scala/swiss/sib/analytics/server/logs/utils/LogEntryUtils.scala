@@ -92,14 +92,14 @@ object LogEntryUtils {
         } catch {
 
           case e: Exception => {
-            val debugInfo = """Failed to convert log line $e.getMessage: $cleanedLogFile""";
+            val debugInfo = "Failed to convert log line:\n" + cleanedLogFile + "\nError msg:" + e.getMessage
             println(debugInfo)
             LogEntry(false, debugInfo, null, null, null, null, null, null, null, null, null)
           }
         }
       }
       case _ => {
-        val debugInfo = """Cannot parse log line $e.getMessage: $cleanedLogFile""";
+            val debugInfo = "Cannot parse log line:\n" + cleanedLogFile
         println(debugInfo)
         LogEntry(false, debugInfo, null, null, null, null, null, null, null, null, null)
       }
