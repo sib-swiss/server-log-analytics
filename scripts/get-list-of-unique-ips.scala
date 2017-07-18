@@ -3,8 +3,6 @@ import org.apache.spark.sql.DataFrame
 import swiss.sib.analytics.server.logs.utils.LConfigUtils
 import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 
-val start = System.currentTimeMillis();
-
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
@@ -12,7 +10,7 @@ val start = System.currentTimeMillis();
 
 val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
-val fileName = scala.io.StdIn.readLine("Resource name in Insights (ex. STRING) : ")
+val fileName = scala.io.StdIn.readLine("Filname for distinct ips file : ")
 
 val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
  
