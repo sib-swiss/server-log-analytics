@@ -12,7 +12,7 @@ val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
 val fileName = scala.io.StdIn.readLine("Filname for distinct ips file : ")
 
-val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
+val year = scala.io.StdIn.readLine("Year (e.g. 2016) : ").toInt
  
 //This lists of all IP
 val resultDF = df.filter($"year" === year).groupBy($"""clientInfo.ipAddress""", $"""agentInfo.isBot""").agg(count("*") as "hits").orderBy($"hits" desc)
