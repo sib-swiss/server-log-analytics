@@ -14,12 +14,18 @@ val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine
 df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
 val errors = df.filter(!$"successfulParsing")
+val totalCount = df.count
+val errorsCount = errors.count
 
-if(errors.count > 0) {
+if(errorsCount > 0) {
   println("Errors:" )
   errors.collect.foreach(println)
-  println(" ")
-  println("Finished with " + errors.count + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+  println("Finished with " + errorsCount + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+  val ratio = errorsCount.toDouble / totalCount
+  if(ratio > 0.01){ //Bigger than 1% consider it as a failure!
+    throw new RuntimeException("More than 1% threashold! Failed to convert data.")
+  }
+  
 }else {
   println("Finished successfully in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
 }
