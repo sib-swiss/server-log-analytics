@@ -9,11 +9,11 @@ val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
 val start = System.currentTimeMillis();
 
-val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
+val auxDF = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
-if(config.firstLevelPathFilter.isDefined){
-  df = df.filter($"firstLevelPath" === config.firstLevelPathFilter)
-}
+val df = if(config.firstLevelPathFilter.isDefined){
+  df.filter($"firstLevelPath" === config.firstLevelPathFilter.get)
+} else auxDF;
 
 df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
