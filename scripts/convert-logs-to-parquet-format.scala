@@ -11,7 +11,7 @@ val start = System.currentTimeMillis();
 
 val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
-if(config.firstLevelPathFilter.isPresent){
+if(config.firstLevelPathFilter.isDefined){
   df = df.filter($"firstLevelPath" === config.firstLevelPathFilter)
 }
 
