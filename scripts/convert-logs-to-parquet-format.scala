@@ -24,7 +24,7 @@ val errorsCount = errors.count
 if(errorsCount > 0) {
   println("Errors:" )
   errors.collect.foreach(println)
-  println("Finished with " + errorsCount + " errors in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
+  println("Finished with " + errorsCount + " errors in a total of  " + totalCount + " logged lines in " + (System.currentTimeMillis() - start) / (60 * 1000.0) + " min")
   val ratio = errorsCount.toDouble / totalCount
   if(ratio > 0.01){ //Bigger than 1% consider it as a failure!
     throw new RuntimeException("More than 1% threashold! Failed to convert data.")

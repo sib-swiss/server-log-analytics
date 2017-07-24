@@ -78,11 +78,13 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
   
   "LogEntryUtils" should "parse correctly RHEA log entries" in {
 
-    val l0 = """ebi.net 127.0.0.1 - - [01/May/2017:20:00:23 +0100] "GET /rhea/comp HTTP/1.1" 301 246 "http://www.ebi.ac.uk/intenz/" - - www.ebi.ac.uk"""
+    val l0 = """localhost 127.0.0.1 - - [01/May/2017:20:00:23 +0100] "GET /rhea/comp HTTP/1.1" 301 246 "http://www.ebi.ac.uk/intenz/" - - www.ebi.ac.uk"""
+    val l1 = """localhost 127.0.0.1 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
 
-    val le = List(l0).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
+    
 
   }
   
@@ -105,6 +107,8 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(2).successfulParsing should be (false)
     
   }
+
+  
   
   
 
