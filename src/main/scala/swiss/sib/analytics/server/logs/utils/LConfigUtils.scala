@@ -26,12 +26,12 @@ object LConfigUtils {
 
   def replaceEnvVariable(s: String): String = {
 
-    val regex = """(\$\w+)(.*)""".r
+    val regexToMatchVariableName = """(\$\w+)(.*)""".r
     s match {
-      case regex (variableName, _ ) => {
+      case regexToMatchVariableName (variableName, _ ) => {
         val variableValue = System.getenv(variableName);
-        val result = s.replace(variableName, variableValue);
-        result
+        val resultReplacedWithVariableValue = s.replace(variableName, variableValue);
+        resultReplacedWithVariableValue
       }
       case _ => s;
     }
