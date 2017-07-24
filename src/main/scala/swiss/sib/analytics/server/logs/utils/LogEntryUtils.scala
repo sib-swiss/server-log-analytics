@@ -73,7 +73,7 @@ object LogEntryUtils {
 
           val responseInfo = LogResponseInfo(responseCode.toInt, content, contentPresent, extractMimeType(remaining))
 
-          val logClientInfo = LogClientInfo(ipAddress, clientIdentd, userId)
+          val logClientInfo = LogClientInfo(ipAddress, clientIdentd, userId, isPublic(ipAddress))
 
           val requestInfo = LogRequestInfo(method, endpoint, protocol, EndPointUtils.getFirstLevelPath(endpoint))
 
@@ -120,4 +120,25 @@ object LogEntryUtils {
     //In case of OMA log files
     return text.replaceAll("  \"", " \"").replace("\\\"", "'");
   }
+  
+  def isPublic(ipAddress: String): Boolean = {
+
+    //According to https://en.wikipedia.org/wiki/Private_network
+    //10.0.0.0 – 10.255.255.255	
+    //192.168.0.0 – 192.168.255.255
+     if(ipAddress.startsWith("10.") || ipAddress.startsWith("192.168.")) {
+       return false;
+     }
+
+     // 172.16.0.0 – 172.31.255.255	
+     if(ipAddress.startsWith("172.")) {
+       val secondValue = Integer.valueOf(ipAddress.split(".")(1))
+       if((secondValue >= 16) && (secondValue <= 31))
+           return false;
+     }
+
+     //All other addresses are considered Public ip addresses
+     return true;
+  }
+  
 }

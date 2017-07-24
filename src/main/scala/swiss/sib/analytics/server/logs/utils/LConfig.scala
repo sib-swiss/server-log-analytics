@@ -5,4 +5,5 @@ import java.io.File
 
 case class LConfig(name: String, 
                   logDirectory: File,
-                  parquetFile: File)
+                  parquetFile: File,
+                  firstLevelPathFilter: Option[String])

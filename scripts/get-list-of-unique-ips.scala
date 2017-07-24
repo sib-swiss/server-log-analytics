@@ -17,7 +17,7 @@ val fileName = scala.io.StdIn.readLine("Resource name in Insights (ex. STRING) :
 val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
  
 //This lists of all IP
-val resultDF = df.filter($"year" === year).groupBy($"""clientInfo.ipAddress""", $"""agentInfo.isBot""").agg(count("*") as "hits").orderBy($"hits" desc)
+val resultDF = df.filter($"year" === year).groupBy($"""clientInfo.ipAddress""", $"""agentInfo.isBot""",  $"""clientInfo.isPublic""").agg(count("*") as "hits").orderBy($"hits" desc)
 
 resultDF.coalesce(1).write.option("header", "true").csv(fileName)
 

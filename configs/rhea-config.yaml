@@ -1,7 +1,7 @@
-name: Test Log Analytics
+name: Rhea
 
 #Directory where to find the log files
-logDirectory: /scratch/cluster/monthly/dteixeir/impact-study-sample-data/www.ebi.ac.uk_http/pg-www-lb2/rhea-pg-www-lb2.logs
+logDirectory: $LOG_DIRECTORY_BASE/impact-study-sample-data/rhea-logs-2016/**
 
 #Directory where to output or read the parquet file
-parquetFile: /scratch/cluster/monthly/dteixeir/impact-study-sample-data/rhea-logs.parquet
+parquetFile: $PARQUET_DIRECTORY_BASE/impact-study-sample-data/parquet-logs/rhea

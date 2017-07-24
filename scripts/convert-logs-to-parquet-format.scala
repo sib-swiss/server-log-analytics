@@ -11,6 +11,10 @@ val start = System.currentTimeMillis();
 
 val df = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
+if(config.firstLevelPathFilter.isPresent){
+  df = df.filter($"firstLevelPath" === config.firstLevelPathFilter)
+}
+
 df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
 
 val errors = df.filter(!$"successfulParsing")

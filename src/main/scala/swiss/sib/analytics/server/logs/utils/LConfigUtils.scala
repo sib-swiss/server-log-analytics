@@ -7,26 +7,34 @@ import scala.util.matching.Regex
 import java.io.File
 import java.io.PrintWriter
 
-case class YamlConfig(name: String,
-                      logDirectory: String,
-                      parquetFile: String)
+case class YamlConfig(name: String, logDirectory: String, parquetFile: String, firstLevelPathFilter: Option[String])
 
 object ConfigYamlProtocol extends DefaultYamlProtocol {
-  implicit val configFormat = yamlFormat3(YamlConfig)
+  implicit val configFormat = yamlFormat4(YamlConfig)
 }
 
 object LConfigUtils {
 
   def convertYamlToLConfig(yc: YamlConfig): LConfig = {
 
-    val config = new LConfig(
-      yc.name,
-      new File(yc.logDirectory),
-      new File(yc.parquetFile))
+    val config = new LConfig(yc.name, new File(replaceEnvVariable(yc.logDirectory)), new File(replaceEnvVariable(yc.parquetFile)), yc.firstLevelPathFilter)
 
     println("Config: " + config)
     config;
 
+  }
+
+  def replaceEnvVariable(s: String): String = {
+
+    val regex = """(\$\w+)(.*)""".r
+    s match {
+      case regex (variableName, _ ) => {
+        val variableValue = System.getenv(variableName);
+        val result = s.replace(variableName, variableValue);
+        result
+      }
+      case _ => s;
+    }
   }
 
   def readConfigFile(configFile: String): LConfig = {
