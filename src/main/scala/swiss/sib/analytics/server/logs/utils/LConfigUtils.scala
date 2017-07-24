@@ -29,7 +29,7 @@ object LConfigUtils {
     val regexToMatchVariableName = """(\$\w+)(.*)""".r
     s match {
       case regexToMatchVariableName (variableName, _ ) => {
-        val variableValue = System.getenv(variableName);
+        val variableValue = System.getenv(variableName.substring(1));
         val resultReplacedWithVariableValue = s.replace(variableName, variableValue);
         resultReplacedWithVariableValue
       }
