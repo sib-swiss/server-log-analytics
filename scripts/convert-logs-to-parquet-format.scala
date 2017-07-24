@@ -12,7 +12,7 @@ val start = System.currentTimeMillis();
 val auxDF = sc.textFile(config.logDirectory.getPath).map(LogEntryUtils.parseLogLine).toDF()
 
 val df = if(config.firstLevelPathFilter.isDefined){
-  df.filter($"firstLevelPath" === config.firstLevelPathFilter.get)
+  auxDF.filter($"firstLevelPath" === config.firstLevelPathFilter.get)
 } else auxDF;
 
 df.filter($"successfulParsing").write.partitionBy("year", "month", "day").format("parquet").save(config.parquetFile.getPath)
