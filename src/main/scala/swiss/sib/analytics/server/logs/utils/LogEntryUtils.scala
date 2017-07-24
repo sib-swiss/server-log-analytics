@@ -134,7 +134,6 @@ object LogEntryUtils {
 
      // 172.16.0.0 – 172.31.255.255	
      if(ipAddress.startsWith("172.")) {
-       System.err.println("IPADD" + ipAddress)
        val secondValue = Integer.valueOf(ipAddress.split("\\.")(1))
        if((secondValue >= 16) && (secondValue <= 31))
            return false;
