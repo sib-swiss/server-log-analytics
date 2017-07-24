@@ -1,7 +1,7 @@
 name: Rhea
 
 #Directory where to find the log files
-logDirectory: $LOG_DIRECTORY_BASE/impact-study-sample-data/rhea-logs-2016/**
+logDirectory: $LOG_DIRECTORY_BASE/rhea/**
 
 #Directory where to output or read the parquet file
 parquetFile: $PARQUET_DIRECTORY_BASE/impact-study-sample-data/parquet-logs/rhea

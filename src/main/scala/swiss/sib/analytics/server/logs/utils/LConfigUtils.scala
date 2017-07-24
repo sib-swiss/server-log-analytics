@@ -17,24 +17,11 @@ object LConfigUtils {
 
   def convertYamlToLConfig(yc: YamlConfig): LConfig = {
 
-    val config = new LConfig(yc.name, new File(replaceEnvVariable(yc.logDirectory)), new File(replaceEnvVariable(yc.parquetFile)), yc.firstLevelPathFilter)
+    val config = new LConfig(yc.name, new File(yc.logDirectory), new File(yc.parquetFile), yc.firstLevelPathFilter)
 
     println("Config: " + config)
     config;
 
-  }
-
-  def replaceEnvVariable(s: String): String = {
-
-    val regexToMatchVariableName = """(\$\w+)(.*)""".r
-    s match {
-      case regexToMatchVariableName (variableName, _ ) => {
-        val variableValue = System.getenv(variableName.substring(1));
-        val resultReplacedWithVariableValue = s.replace(variableName, variableValue);
-        resultReplacedWithVariableValue
-      }
-      case _ => s;
-    }
   }
 
   def readConfigFile(configFile: String): LConfig = {

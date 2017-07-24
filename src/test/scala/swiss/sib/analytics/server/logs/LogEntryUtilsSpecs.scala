@@ -5,8 +5,18 @@ import org.scalatest.Matchers
 
 import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 import org.scalatest.Ignore
+import swiss.sib.analytics.server.logs.model.LogEntry
 
 class LogEntryUtilsSpecs extends FlatSpec with Matchers {
+  
+  def mustAllSucceed (entries : List[LogEntry]){
+    val failedEntries = entries.filter(e => !e.successfulParsing).toList
+    failedEntries.foreach(println)
+    
+    if(failedEntries.size > 0){
+      fail()
+    }
+  }
 
   "LogEntryUtils" should "parse correctly log entries" in {
 
@@ -28,6 +38,8 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(1).month should equal(3)
     le(1).responseInfo.contentSize should equal(1519)
     le(1).requestInfo.firstLevelPath should equal("/foo")
+    
+    mustAllSucceed(le)
 
   }
 
@@ -46,6 +58,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(0).requestInfo.protocol should equal("HTTP/1.1")
 
     le(2).requestInfo.protocol should equal("HTTP/1.1")
+    
+    mustAllSucceed(le)
+
 
   }
 
@@ -61,6 +76,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
+    
+    mustAllSucceed(le)
+
 
   }
 
@@ -68,10 +86,12 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
 
     val l1 = """elixir.org 127.0.0.1 - - [22/Mar/2017:11:09:30 +0000] "GET /foo/bar HTTP/1.1" 200 1519 "-" "-" 1.358 - text/plain;charset=utf-8 127.0.0.2 5"""
 
-    val logEntries = List(l1).map(LogEntryUtils.parseLogLine)
+    val le = List(l1).map(LogEntryUtils.parseLogLine)
 
-    val logEntry1 = logEntries(0)
+    val logEntry1 = le(0)
     logEntry1.responseInfo.charset should equal("text/plain");
+
+    mustAllSucceed(le)
 
   }
 
@@ -79,13 +99,13 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
   "LogEntryUtils" should "parse correctly RHEA log entries" in {
 
     val l0 = """localhost 127.0.0.1 - - [01/May/2017:20:00:23 +0100] "GET /rhea/comp HTTP/1.1" 301 246 "http://www.ebi.ac.uk/intenz/" - - www.ebi.ac.uk"""
-    val l1 = """localhost 127.0.0.1 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
+    val l1 = """venkat.windows.ebi.ac.uk 172.22.69.62 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
 
     val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
     
-
+    mustAllSucceed(le)
   }
   
   "LogEntryUtils" should "parse correctly progenetix log entries" in {
@@ -103,13 +123,12 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     le(0).requestInfo.protocol should equal("protocol-not-defined")
     le(0).requestInfo.firstLevelPath should equal("not-defined")
 
+    
+    mustAllSucceed(List(le(0), le(1)))
+    
     //Failure to parser mixed logged line
     le(2).successfulParsing should be (false)
     
   }
-
-  
-  
-  
 
 }

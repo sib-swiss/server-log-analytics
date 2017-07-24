@@ -8,6 +8,7 @@ import swiss.sib.analytics.server.logs.model.LogClientInfo
 import swiss.sib.analytics.server.logs.model.LogEntry
 import swiss.sib.analytics.server.logs.model.LogRequestInfo
 import swiss.sib.analytics.server.logs.model.LogResponseInfo
+import org.apache.commons.lang.exception.ExceptionUtils
 
 object LogEntryUtils {
 
@@ -92,14 +93,15 @@ object LogEntryUtils {
         } catch {
 
           case e: Exception => {
-            val debugInfo = "Failed to convert log line:\n" + cleanedLogFile + "\nError msg:" + e.getMessage
+            e.printStackTrace()
+            val debugInfo = "Failed to convert log line:\n" + cleanedLogFile + "\nError msg:" + ExceptionUtils.getStackTrace(e)
             println(debugInfo)
             LogEntry(false, debugInfo, null, null, null, null, null, null, null, null, null)
           }
         }
       }
       case _ => {
-            val debugInfo = "Cannot parse log line:\n" + cleanedLogFile
+        val debugInfo = "Cannot parse log line:\n" + cleanedLogFile
         println(debugInfo)
         LogEntry(false, debugInfo, null, null, null, null, null, null, null, null, null)
       }
@@ -132,7 +134,8 @@ object LogEntryUtils {
 
      // 172.16.0.0 – 172.31.255.255	
      if(ipAddress.startsWith("172.")) {
-       val secondValue = Integer.valueOf(ipAddress.split(".")(1))
+       System.err.println("IPADD" + ipAddress)
+       val secondValue = Integer.valueOf(ipAddress.split("\\.")(1))
        if((secondValue >= 16) && (secondValue <= 31))
            return false;
      }
