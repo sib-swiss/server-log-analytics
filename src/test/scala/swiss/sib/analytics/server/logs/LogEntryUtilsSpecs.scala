@@ -99,11 +99,15 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
   "LogEntryUtils" should "parse correctly RHEA log entries" in {
 
     val l0 = """localhost 127.0.0.1 - - [01/May/2017:20:00:23 +0100] "GET /rhea/comp HTTP/1.1" 301 246 "http://www.ebi.ac.uk/intenz/" - - www.ebi.ac.uk"""
-    val l1 = """venkat.windows.ebi.ac.uk 172.22.69.62 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
+    val l1 = """ola.world 127.0.0.1 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
+    val l2 = """boum.paf.toto 127.0.0.1 - - [03/May/2017:14:27:00 +0100] "GET /rhea/reacti23 HTTP/1.1" - 0 "-" "Mozilla/5.0 (compatible; BLEXBot/1.0; +http://webmeup-crawler.com/)" ves-pg-91:8080 - www.rhea-db.org"""
 
-    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1, l2).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
+    
+    //Sometimes there is no status code. So the number is 0.
+    le(2).responseInfo.status should equal(0)
     
     mustAllSucceed(le)
   }

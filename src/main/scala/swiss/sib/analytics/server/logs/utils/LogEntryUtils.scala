@@ -72,7 +72,7 @@ object LogEntryUtils {
           val contentPresent = !(contentSize.equals("-"))
           val content = if (contentPresent) contentSize.toLong else 0
 
-          val responseInfo = LogResponseInfo(responseCode.toInt, content, contentPresent, extractMimeType(remaining))
+          val responseInfo = LogResponseInfo(if("-".equals(responseCode)) 0 else responseCode.toInt, content, contentPresent, extractMimeType(remaining))
 
           val logClientInfo = LogClientInfo(ipAddress, clientIdentd, userId, isPublic(ipAddress))
 
