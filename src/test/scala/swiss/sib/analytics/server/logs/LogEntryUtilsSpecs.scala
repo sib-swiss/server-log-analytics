@@ -101,8 +101,9 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     val l0 = """localhost 127.0.0.1 - - [01/May/2017:20:00:23 +0100] "GET /rhea/comp HTTP/1.1" 301 246 "http://www.ebi.ac.uk/intenz/" - - www.ebi.ac.uk"""
     val l1 = """ola.world 127.0.0.1 - - [03/May/2017:15:17:18 +0100] "GET /rhea/rest/1.0/ws/reaction/cmlreact/10000 HTTP/1.1" 200 3363 "-" "Java/1.8.0_60" ves-pg-91:8080 0.181214 www.rhea-db.org"""
     val l2 = """boum.paf.toto 127.0.0.1 - - [03/May/2017:14:27:00 +0100] "GET /rhea/reacti23 HTTP/1.1" - 0 "-" "Mozilla/5.0 (compatible; BLEXBot/1.0; +http://webmeup-crawler.com/)" ves-pg-91:8080 - www.rhea-db.org"""
+    val l3 = """boum.paf.toto 127.0.0.1 - - [13/May/2017:17:55:23 +0100] "GET /rhea/reaction?id=38056"%20and%20"x"%3D"x HTTP/1.1" 500 1728 "-" "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; elertz 2.4.025; .NET CLR 1.0.3705; .NET CLR 1.1.4322; Media Center PC 4.0)" ves-pg-90:8080 0.014860 www.rhea-db.org"""
 
-    val le = List(l0, l1, l2).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1, l2, l3).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
     
@@ -116,9 +117,8 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
 
     val l0 = """127.0.0.1 - - [08/Feb/2017:09:15:41 +0100] "-" 408 - "-" "-""""
     val l1 = """127.0.0.1 - - [25/Apr/2017:23:49:09 +0200] "Gh0st\xad" 400 226 "-" "-""""
-    val l2 = """127.0.0.1 - - [25/Feb/2017:17:35:06 +0100] "GET /Wiki/System/WebSearch?recurse=;casesensitive=;excludetopic=;web=;search=%5EV;nosearch=;cover=print;SEARCHb2e0c660d1a82ac160a978d79f6646af=1;type=regex127.0.0.1 - - [25/Feb/2017:17:37:47 +0100] "GET /Wiki/System/DefaultWidgets?skin=widgets;skin=widgets;skin=widgets;widgetscolumns=wt;widgetscolumns=wm;widgetscolumns=twt;widgetscolumns=twt;widgetscolumns=wt;colsidx=2;colsidx=6;colsidx=4;colsidx=4;colsidx=2;sortcol=2;table=1;up=1 HTTP/1.1" 500 2400 "-" "Mozilla/5.0 (compatible; MJ12bot/v1.4.7; http://mj12bot.com/)""""
 
-    val le = List(l0, l1, l2).map(LogEntryUtils.parseLogLine)
+    val le = List(l0, l1).map(LogEntryUtils.parseLogLine)
 
     le(0).clientInfo.ipAddress should equal("127.0.0.1")
     le(0).responseInfo.status should equal(408)
@@ -130,8 +130,6 @@ class LogEntryUtilsSpecs extends FlatSpec with Matchers {
     
     mustAllSucceed(List(le(0), le(1)))
     
-    //Failure to parser mixed logged line
-    le(2).successfulParsing should be (false)
     
   }
 

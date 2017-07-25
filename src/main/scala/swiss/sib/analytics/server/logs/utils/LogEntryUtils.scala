@@ -17,7 +17,9 @@ object LogEntryUtils {
   val CONTROL_CHARS_PATTERN = """[\p{C}]"""
 
   //Adapted from here: https://regex101.com/r/75x7uP/2/
-  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "([^"]*)" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
+  //To understand "(.+?)(?=" )" :matches until it finds '" ' https://stackoverflow.com/questions/7124778/how-to-match-anything-up-until-this-sequence-of-characters-in-a-regular-expres
+  
+  val PATTERN = """^(\S+ )?(\S+) (\S+) (\S+) \[([\w:\/]+\s[+\-]\d{4})\] "(.+?)(?=" )" (\d{3}|-) (Cache:\S+ )?(\d+|-)\s?"?([^"]*)"?\s?"?([^"]*)?"?(.*)""".r
 
   def extractHTTPVersion(spacesToken: Array[String]): String = {
     if (spacesToken.length >= 2) {
