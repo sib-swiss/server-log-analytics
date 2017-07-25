@@ -1,0 +1,5 @@
+name: neXtProt
+
+logDirectory: symbolic-link-to-log-directory/nextprot/**
+
+parquetFile: symbolic-link-to-parquet-directory/parquet-logs/nextprot

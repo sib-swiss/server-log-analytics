@@ -1,0 +1,8 @@
+name: ArrayMap
+
+#Directory where to find the log files
+logDirectory: symbolic-link-to-log-directory/Progenetix/2017-05-18_apache_access_log_130.60.240.68
+
+#Directory where to output or read the parquet file
+#parquetFile: /scratch/local/monthly/dteixeir/impact-study-sample-data/parquet-logs/string
+parquetFile: symbolic-link-to-log-directory/parquet-logs/Progenetix
