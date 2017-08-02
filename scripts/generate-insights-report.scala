@@ -5,7 +5,9 @@ import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
-val name = scala.io.StdIn.readLine("Resource name in Insights (ex. STRING) : ")
+//Defines resource name
+val name = config.name
+
 val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
 
 val start = System.currentTimeMillis();
