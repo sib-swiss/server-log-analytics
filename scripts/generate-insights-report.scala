@@ -78,7 +78,7 @@ metrics.foreach(m => {
       prt(metric + "_per_months_ ################################# ")
 	
       val df = if(filterBot) {
-        dfForYear.filter($"isBot" === true)
+        dfForYear.filter($"agentInfo.isBot" === true)
       }else dfForYear
         
       //Shows metrics by date
