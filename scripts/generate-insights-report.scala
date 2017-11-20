@@ -38,7 +38,7 @@ val metrics = List(
           ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"),
           ("clientInfo.ipAddress", "top_ips"))),
 
-      ("server_hits_without_bots", true, count("*") as "server_hits",
+      ("server_hits_without_bots", true, count("*") as "server_hits_without_bots",
         List(("responseInfo.contentPresent", "content_length_present"),
           ("agentInfo.agent", "agent"),
           ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),
@@ -53,7 +53,7 @@ val metrics = List(
           ("responseInfo.charset", "charset"), ("responseInfo.status", "status_code"),
           ("clientInfo.ipAddress", "top_ips"))),
 
-      ("server_throughput_without_bots", true, sum("responseInfo.contentSize") as "server_throughput",
+      ("server_throughput_without_bots", true, sum("responseInfo.contentSize") as "server_throughput_without_bots",
         List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent"),
           ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"),
           ("agentInfo.isProgram", "programmatic_access"), ("agentInfo.program", "programmatic"),
@@ -64,7 +64,7 @@ val metrics = List(
         List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent"), ("agentInfo.program", "programmatic"),
           ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"))),
 
-      ("server_distinct_ips_without_bots", true, countDistinct("clientInfo.ipAddress") as "server_distinct_ips",
+      ("server_distinct_ips_without_bots", true, countDistinct("clientInfo.ipAddress") as "server_distinct_ips_without_bots",
         List(("agentInfo.agent", "agent"), ("agentInfo.program", "programmatic"), ("requestInfo.firstLevelPath", "first_level_path"),
           ("requestInfo.url", "top_urls"))))
           
