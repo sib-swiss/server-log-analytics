@@ -62,10 +62,13 @@ val metrics = List(
 
       ("server_distinct_ips", false, countDistinct("clientInfo.ipAddress") as "server_distinct_ips",
         List(("agentInfo.isBot", "bot_traffic"), ("agentInfo.bot", "bot"), ("agentInfo.agent", "agent"), ("agentInfo.program", "programmatic"),
-          ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"))),
+            ("responseInfo.status", "status_code"),
+            ("requestInfo.firstLevelPath", "first_level_path"), ("requestInfo.url", "top_urls"))),
 
       ("server_distinct_ips_without_bots", true, countDistinct("clientInfo.ipAddress") as "server_distinct_ips_without_bots",
-        List(("agentInfo.agent", "agent"), ("agentInfo.program", "programmatic"), ("requestInfo.firstLevelPath", "first_level_path"),
+        List(("agentInfo.agent", "agent"),
+          ("responseInfo.status", "status_code"),
+          ("agentInfo.program", "programmatic"), ("requestInfo.firstLevelPath", "first_level_path"),
           ("requestInfo.url", "top_urls"))))
           
 metrics.foreach(m => {
