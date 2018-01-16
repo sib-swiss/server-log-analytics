@@ -16,6 +16,8 @@ Requirements:
 sbt package
 ```
 
+## 0) Choose or create  a configuration file
+
 ## 1) Convert the apache logs to parquet format
 
 ### Run the start script
@@ -26,16 +28,20 @@ sbt package
 
 Choose the appropriated option
 
-### script unique IPs - genereate  
-
-```shell
-1)
+```
+Using config file configs/oma-config.yaml
+---
+1) Convert Parquet
+2) Insights Report
+3) Distinct IPs
+4) Quit
+`
 ```
 
-### script insights - genereate report to be integrated into [SIB Insights](https://insights.expasy.org/) 
-```shell
-2)
-```
+
+Option 2: generates report to be integrated in insights
+Option 3: script unique IPs - genereate  
+
 
 ### script insights - genereate  
 ```shell
