@@ -16,17 +16,31 @@ Requirements:
 sbt package
 ```
 
-## 0) Choose or create  a configuration file
+## Choose/modify/create a config file
 
-## 1) Convert the apache logs to parquet format
+This config file contains where the log files are kept and where the parquet folder (structured file) should be written 
 
-### Run the start script
+Example for STRING. 
+In this example we use /scratch/local but we could use /scratch/cluster if we wanted to run in the cluster
+
+```
+name: STRING
+
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/string-logs/*
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/weekly/dteixeir/string-parquet/
+
+```
+
+## Run the application
 
 ```shell
 ./start.sh configs/oma-config.yaml
 ```
 
-Choose the appropriated option
+Choose the appropriated option (option 2 and 3, requires option 1 parquet)
 
 ```
 Using config file configs/oma-config.yaml
@@ -38,10 +52,16 @@ Using config file configs/oma-config.yaml
 `
 ```
 
+### Parquet (Required)
 
-Option 2: generates report to be integrated in insights
-Option 3: script unique IPs - genereate  
+Option 1, Convert Parequet is required to proceed further.
+This converstion will convert the "raw log files" to a structured / indexed format for fast analysis.
 
+### Insights report
+This option will generate a report to be included in Insights 
+
+### Distinct IPs
+This will produce a file with all distinct IPs
 
 ### script insights - genereate  
 ```shell
