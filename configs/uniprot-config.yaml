@@ -1,0 +1,7 @@
+name: UniProt
+
+#Directory where to find the log files
+logDirectory: symbolic-link-to-log-directory/uniprot/**
+
+#Directory where to output or read the parquet file
+parquetFile: symbolic-link-to-parquet-directory/uniprot

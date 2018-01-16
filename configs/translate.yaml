@@ -1,0 +1,10 @@
+name: Translate
+
+#Directory where to find the log files. Use a symbolic linnk
+logDirectory: symbolic-link-to-log-directory/*.log
+
+#Directory where to output or read the parquet file
+parquetFile: symbolic-link-to-parquet-directory/translate
+
+#The first level path filter
+firstLevelPathFilter: /translate
