@@ -3,8 +3,6 @@
 [![Build Status](https://travis-ci.org/sib-swiss/server-log-analytics.svg?branch=master)](https://travis-ci.org/sib-swiss/server-log-analytics)
 [![codecov](https://codecov.io/gh/sib-swiss/server-log-analytics/branch/master/graph/badge.svg)](https://codecov.io/gh/sib-swiss/server-log-analytics)
 
-**BE AWARE, THIS PROJECT IS UNDER ACTIVE DEVELOPMENT**
-
 Requirements: 
 * [Download Spark 2.1+](https://spark.apache.org/downloads.html)
 * Java [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -18,7 +16,7 @@ sbt package
 
 ## Choose/modify/create a config file
 
-This config file contains where the log files are kept and where the parquet folder (structured file) should be written 
+The config file contains where the log files are kept and where the parquet folder (structured file) should be written 
 
 Example for STRING. 
 In this example we use /scratch/local but we could use /scratch/cluster if we wanted to run in the cluster
