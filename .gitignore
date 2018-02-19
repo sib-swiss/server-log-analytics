@@ -1,3 +1,5 @@
+distinct-ips/*
+insights-reports/*
 target
 .settings
 .cache-main
