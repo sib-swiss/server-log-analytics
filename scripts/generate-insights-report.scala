@@ -8,7 +8,7 @@ val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 //Defines resource name
 val name = config.name
 
-val year = scala.io.StdIn.readLine("Year (ex. 2016) : ").toInt
+val year = scala.io.StdIn.readLine("Year (ex. 2017) : ").toInt
 
 val start = System.currentTimeMillis();
 

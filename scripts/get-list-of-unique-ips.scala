@@ -10,10 +10,12 @@ val start = System.currentTimeMillis();
 
 val df = sqlContext.read.parquet(config.parquetFile.getPath)
 
-val fileName = scala.io.StdIn.readLine("Filname for distinct ips file : ")
+val name = config.name
 
-val year = scala.io.StdIn.readLine("Year (e.g. 2016) : ").toInt
+val year = scala.io.StdIn.readLine("Year (e.g. 2017) : ").toInt
  
+val fileName = "distinct-ips/" + name + "-" + year + "distinct-ips"
+
 //This lists of all IP
 val resultDF = df.filter($"year" === year).groupBy($"""clientInfo.ipAddress""", $"""agentInfo.isBot""",  $"""clientInfo.isPublic""").agg(count("*") as "hits").orderBy($"hits" desc)
 
