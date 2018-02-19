@@ -1,0 +1,5 @@
+#If you want to copy
+cp -r Prosite/2017 ../../sib-insights/proxy-data/server-stats/Prosite/
+
+#If you have modified something
+rsync -ua STRING/2017/ ../../sib-insights/proxy-data/server-stats/STRING/2017/
