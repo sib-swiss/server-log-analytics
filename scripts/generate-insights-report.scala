@@ -5,6 +5,8 @@ import swiss.sib.analytics.server.logs.utils.LogEntryUtils
 val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 val config = LConfigUtils.readConfigFile(System.getProperty("config.file"));
 
+var withDimensions = false
+
 //Defines resource name
 val name = config.name
 
@@ -92,21 +94,22 @@ metrics.foreach(m => {
       fw.close
 
       //Shows metrics by dimensions
-      val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
-      dimensions.foreach(d => {
-       d match { 
-	case (dimension, dimensionAlias) => {
-       		prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
-       		val data = df.groupBy($"""$dimension""")
-		    .agg(function).orderBy($"""$metric""" desc)
-		    .limit(maxResults).collect()
-		    .foreach(r => {	
+      if(withDimensions) {
+      	val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
+      	dimensions.foreach(d => {
+       		d match { 
+		case (dimension, dimensionAlias) => {
+       			prt("\n## Top_" + maxResults + "_" + metric + "_for_" + dimension + " ####")
+       			val data = df.groupBy($"""$dimension""")
+		    	.agg(function).orderBy($"""$metric""" desc)
+		    	.limit(maxResults).collect()
+		    	.foreach(r => {	
 				val lvalue : Number = r.get(1).asInstanceOf[Number]
 				val percentage = lvalue.doubleValue / total.longValue
-				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage + "\t" + r.get(1), fwd)
-	     })}}})
-      fwd.close
-
+				prt(dimensionAlias + "\t" + r.get(0) + "\t" + percentage + "\t" + r.get(1), fwd) })}}}
+      	)
+      	fwd.close
+      }
       prt("\n");    
 
     }
