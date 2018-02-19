@@ -75,7 +75,7 @@ metrics.foreach(m => {
   m match {
     case (metric, filterBot, function, dimensions) => {
 
-      val fileName = name + "/" + year + "/" + metric 
+      val fileName = "insights-reports/" + name + "/" + year + "/" + metric 
       val fw = createFileWriter(fileName + "/" + name + "-" + year + "-" + metric + ".tsv")
 
       prt(metric + "_per_months_ ################################# ")
@@ -87,6 +87,9 @@ metrics.foreach(m => {
       //Shows metrics by date
       val total : Number = df.groupBy($"year").agg(function).first().get(1).asInstanceOf[Number]
       df.groupBy($"month", $"year").agg(function).orderBy($"year" asc, $"month" asc).collect().foreach(r => prt(r.mkString("\t"), fw));
+      //Per year
+      df.groupBy($"year").agg(function).orderBy($"year" asc).collect().foreach(r => prt("ALL\t" + r.mkString("\t"), fw));
+      fw.close
 
       //Shows metrics by dimensions
       val fwd = createFileWriter(fileName + "/" + name + "-" + year + "-" + m._1 + "-dimensions.tsv")
@@ -105,7 +108,6 @@ metrics.foreach(m => {
       fwd.close
 
       prt("\n");    
-      fw.close
 
     }
   }

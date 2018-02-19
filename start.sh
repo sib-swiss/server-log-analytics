@@ -1,10 +1,10 @@
 #!/bin/bash
 
-module add Development/java_jdk/1.8.0_112;
-JAVA_HOME=/software/Development/java_jdk/1.8.0_112/
+module add Development/java/1.8.0_152;
+JAVA_HOME=/software/Development/java_jdk/1.8.0_152/
 SPARK_HOME=$HOME/spark #On home directory
 
-EXEC_MEM=100g
+EXEC_MEM=200g
 DRIVER_MEM=100g
 EXTRA_JARS=lib/moultingyaml_2.11-0.4.0.jar,lib/snakeyaml-1.18.jar
 

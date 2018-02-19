@@ -1,0 +1,7 @@
+name: neXtProt-api
+
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/neXtProt-logs/api.nextprot.org/*
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/weekly/dteixeir/nextprot-api-parquet/

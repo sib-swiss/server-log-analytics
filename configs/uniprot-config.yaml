@@ -1,7 +1,7 @@
 name: UniProt
 
 #Directory where to find the log files
-logDirectory: symbolic-link-to-log-directory/uniprot/**
+logDirectory: /scratch/local/monthly/dteixeir/uniprot-logs/**
 
 #Directory where to output or read the parquet file
-parquetFile: symbolic-link-to-parquet-directory/uniprot
+parquetFile: /scratch/local/monthly/dteixeir/uniprot-parquet/

@@ -1,0 +1,7 @@
+name: SWISS-MODEL
+
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/swissmodel/swissmodel/*
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/weekly/dteixeir/swissmodel-parquet/

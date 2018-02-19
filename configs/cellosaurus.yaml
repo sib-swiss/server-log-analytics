@@ -1,10 +1,7 @@
 name: Cellosaurus
 
-#Directory where to find the log files. Use a symbolic linnk
-logDirectory: symbolic-link-to-log-directory/web.expasy.org/web/**
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/expasy/web.cellosaurus.access-2017.log
 
 #Directory where to output or read the parquet file
-parquetFile: symbolic-link-to-parquet-directory/cellosaurus
-
-#The first level path filter
-firstLevelPathFilter: /cellosaurus
+parquetFile: /scratch/local/weekly/dteixeir/cellosaurus-parquet

@@ -1,0 +1,7 @@
+name: SugarBind
+
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/sugarbind-logs/**
+
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/weekly/dteixeir/sugarbind-parquet

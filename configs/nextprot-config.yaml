@@ -1,5 +1,7 @@
 name: neXtProt
 
-logDirectory: symbolic-link-to-log-directory/nextprot/**
+#Directory where to find the log files
+logDirectory: /scratch/local/weekly/dteixeir/neXtProt-logs/www.nextprot.org/*
 
-parquetFile: symbolic-link-to-parquet-directory/parquet-logs/nextprot
+#Directory where to output or read the parquet file
+parquetFile: /scratch/local/weekly/dteixeir/nextprot-parquet/
